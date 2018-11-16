@@ -8,7 +8,8 @@ namespace SoccerStats
 {
 	public class Session
 	{
-		public string Date { get; set; }
+        public int IdSession  { get; set; }
+        public string Date { get; set; }
 		public string Lieu { get; set; }
 		public List<Joueur> Joueurs { get; set; }
 	}

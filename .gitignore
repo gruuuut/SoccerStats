@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/SoccerStats/v15/Server/sqlite3
+/SoccerStats/bin/Debug
+/SoccerStats/obj/Debug
+/SoccerStats/Result20181116_115014.csv
+/SoccerStats/Source.txt

@@ -4,14 +4,12 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using SoccerStats.Models;
 
 namespace SoccerStats
 {
     public partial class Dashboard : Form
 	{
-        List<Session> sessions;
-
-
         public Dashboard()
 		{
 			InitializeComponent();			
@@ -33,12 +31,20 @@ namespace SoccerStats
             LoadingUtil loadingUtil = new LoadingUtil();
             List<Session> sessions = loadingUtil.LoadDataFromSource();
 
-            IOrderedEnumerable<Tuple<Joueur, int>> joueurs = Utils.GetAllJoueurs(sessions).OrderByDescending(x => x.Item2);
+            IOrderedEnumerable<JoueurSessionModel> joueurs = Utils.GetAllJoueurs(sessions).OrderByDescending(x => x.NbSessions);
 
-            foreach (Tuple<Joueur, int> joueur in joueurs)
+            int position = 1;
+            foreach (JoueurSessionModel joueur in joueurs)
             {
-                lvTopJoueurs.Items.Add(joueur.Item1.Nom + "(" + joueur.Item2.ToString() + ")");
+                lvTopJoueurs.Items.Add("N°" + position + " " + joueur.Nom + "(" + joueur.NbSessions.ToString() + ")");
+                position++;
             }
+
+            cbAnnee.Items.Clear();
+            cbAnnee.Items.Add("2016");
+            cbAnnee.Items.Add("2017");
+            cbAnnee.Items.Add("2018");
+            cbAnnee.Visible = true;
         }
 
         private void btnGenererJoueursCommuns_Click(object sender, EventArgs e)
@@ -51,6 +57,76 @@ namespace SoccerStats
             string generatedFile = Utils.GetElementsCommun(sessionsV2);
 
             MessageBox.Show(string.Format("Le fichier csv a été généré avec succès. Chemin : {0}", generatedFile), "Message");
+        }
+
+        private void cbAnnee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedAnnee = cbAnnee.SelectedItem.ToString();
+
+            lvTopJoueurs.Items.Clear();
+            LoadingUtil loadingUtil = new LoadingUtil();
+            List<Session> sessions = loadingUtil.LoadDataFromSource();
+
+            // Attention : ces 3 boucles sont à factoriser, l'année étant le seul élément qui varie d'un if à l'autre.
+            IOrderedEnumerable<JoueurSessionModel> joueurs = Utils.GetAllJoueurs(sessions).OrderByDescending(x => x.NbSessions);
+            if (selectedAnnee == "2016")
+            {
+                joueurs = Utils.GetAllJoueurs(sessions).OrderByDescending(x => x.NbSessions2016);
+                int position = 1;
+                foreach (JoueurSessionModel joueur in joueurs)
+                {
+                    lvTopJoueurs.Items.Add("N°" + position + " " + joueur.Nom + "(" + joueur.NbSessions2016.ToString() + ")");
+                    position++;
+                }
+            }
+
+            if (selectedAnnee == "2017")
+            {
+                joueurs = Utils.GetAllJoueurs(sessions).OrderByDescending(x => x.NbSessions2017);
+                int position = 1;
+                foreach (JoueurSessionModel joueur in joueurs)
+                {
+                    lvTopJoueurs.Items.Add("N°" + position + " " + joueur.Nom + "(" + joueur.NbSessions2017.ToString() + ")");
+                    position++;
+                }
+            }
+
+            if (selectedAnnee == "2018")
+            {
+                joueurs = Utils.GetAllJoueurs(sessions).OrderByDescending(x => x.NbSessions2018);
+                int position = 1;
+                foreach (JoueurSessionModel joueur in joueurs)
+                {
+                    lvTopJoueurs.Items.Add("N°" + position + " " + joueur.Nom + "(" + joueur.NbSessions2018.ToString() + ")");
+                    position++;
+                }
+            }            
+        }
+
+        private void btnSessionsConsecutives_Click(object sender, EventArgs e)
+        {
+            lvTopJoueurs.Items.Clear();
+            LoadingUtil loadingUtil = new LoadingUtil();
+            List<Session> sessions = loadingUtil.LoadDataFromSource();
+
+            List<JoueurSessionModel> joueurs = Utils.GetAllJoueurs(sessions);
+            List<SessionParticipation> sessionParticipations = new List<SessionParticipation>();
+            List<JoueurSessionParticipation> joueurSessionParticipations = new List<JoueurSessionParticipation>();
+
+            foreach (JoueurSessionModel joueur in joueurs)
+            {
+                SessionParticipation sessionParticipation = new SessionParticipation();
+                sessionParticipations.Clear();
+                sessionParticipation.NomJoueur = joueur.Nom;
+                
+                foreach(Session session in sessions)
+                {
+                    sessionParticipations.Add(new SessionParticipation() { IdSession = session.IdSession, NomJoueur = joueur.Nom, Present = session.Joueurs.Exists(x => x.Nom == joueur.Nom) });
+                }
+
+                joueurSessionParticipations.Add(new JoueurSessionParticipation() { Nom = joueur.Nom, sessions = sessionParticipations });
+            }
+
         }
     }
 }

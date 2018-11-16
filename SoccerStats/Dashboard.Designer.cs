@@ -36,6 +36,8 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.btnGenererTopJoueurs = new System.Windows.Forms.Button();
             this.btnGenererJoueursCommuns = new System.Windows.Forms.Button();
+            this.cbAnnee = new System.Windows.Forms.ComboBox();
+            this.btnSessionsConsecutives = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblNbSessionsTitre
@@ -112,11 +114,33 @@
             this.btnGenererJoueursCommuns.UseVisualStyleBackColor = true;
             this.btnGenererJoueursCommuns.Click += new System.EventHandler(this.btnGenererJoueursCommuns_Click);
             // 
+            // cbAnnee
+            // 
+            this.cbAnnee.FormattingEnabled = true;
+            this.cbAnnee.Location = new System.Drawing.Point(182, 26);
+            this.cbAnnee.Name = "cbAnnee";
+            this.cbAnnee.Size = new System.Drawing.Size(67, 21);
+            this.cbAnnee.TabIndex = 8;
+            this.cbAnnee.Visible = false;
+            this.cbAnnee.SelectedIndexChanged += new System.EventHandler(this.cbAnnee_SelectedIndexChanged);
+            // 
+            // btnSessionsConsecutives
+            // 
+            this.btnSessionsConsecutives.Location = new System.Drawing.Point(662, 140);
+            this.btnSessionsConsecutives.Name = "btnSessionsConsecutives";
+            this.btnSessionsConsecutives.Size = new System.Drawing.Size(91, 36);
+            this.btnSessionsConsecutives.TabIndex = 9;
+            this.btnSessionsConsecutives.Text = "Sessions consécutives";
+            this.btnSessionsConsecutives.UseVisualStyleBackColor = true;
+            this.btnSessionsConsecutives.Click += new System.EventHandler(this.btnSessionsConsecutives_Click);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnSessionsConsecutives);
+            this.Controls.Add(this.cbAnnee);
             this.Controls.Add(this.btnGenererJoueursCommuns);
             this.Controls.Add(this.btnGenererTopJoueurs);
             this.Controls.Add(this.lblVersion);
@@ -142,6 +166,8 @@
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Button btnGenererTopJoueurs;
         private System.Windows.Forms.Button btnGenererJoueursCommuns;
+        private System.Windows.Forms.ComboBox cbAnnee;
+        private System.Windows.Forms.Button btnSessionsConsecutives;
     }
 }
 

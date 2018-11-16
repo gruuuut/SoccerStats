@@ -4,35 +4,44 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SoccerStats.Models;
 
 namespace SoccerStats
 {
 	public static class Utils
 	{
-		public static List<Tuple<Joueur, int>> GetAllJoueurs(List<Session> sessions)
-		{
-			List<Tuple<Joueur, int>> result = new List<Tuple<Joueur, int>>();
-			foreach (Session session in sessions)
-			{
-				foreach (Joueur joueur in session.Joueurs)
-				{
-					if (!result.Exists(x => x.Item1.Nom == joueur.Nom))
-					{
-						result.Add(new Tuple<Joueur, int>(joueur, 1));
-					}
-					else
-					{
-						Tuple<Joueur, int> tuple = result.Find(x => x.Item1.Nom == joueur.Nom);
-						var nom = tuple.Item1;
-						var nbOccurence = tuple.Item2 + 1;
+        public static List<JoueurSessionModel> GetAllJoueurs(List<Session> sessions)
+        {
+            List<JoueurSessionModel> result = new List<JoueurSessionModel>();
+            foreach (Session session in sessions)
+            {
+                foreach (Joueur joueur in session.Joueurs)
+                {
+                    if (!result.Exists(x => x.Nom == joueur.Nom))
+                    {
+                        result.Add(new JoueurSessionModel(){
+                                        Nom = joueur.Nom,
+                                        NbSessions = 1,
+                                        NbSessions2016 = session.Date.Contains("2016") ? 1 : 0,
+                                        NbSessions2017 = session.Date.Contains("2017") ? 1 : 0,
+                                        NbSessions2018 = session.Date.Contains("2018") ? 1 : 0
+                        });
+                    }
+                    else
+                    {
+                        JoueurSessionModel joueurSessionModel = result.Find(x => x.Nom == joueur.Nom);
+                        joueurSessionModel.NbSessions += 1;
+                        joueurSessionModel.NbSessions2016 += session.Date.Contains("2016") ? 1 : 0;
+                        joueurSessionModel.NbSessions2017 += session.Date.Contains("2017") ? 1 : 0;
+                        joueurSessionModel.NbSessions2018 += session.Date.Contains("2018") ? 1 : 0;                        
 
-						result.Remove(tuple);
-						result.Add(new Tuple<Joueur, int>(nom, nbOccurence));
-					}
-				}
-			}
-			return result;
-		}
+                        result.Remove(joueurSessionModel);
+                        result.Add(joueurSessionModel);
+                    }
+                }
+            }
+            return result;
+        }
 
         /// <summary>
         /// Génération du csv d'éléments commun

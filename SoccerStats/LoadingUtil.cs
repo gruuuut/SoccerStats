@@ -12,7 +12,9 @@ namespace SoccerStats
             string solutionPath = Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory()));
 
             string[] lines = File.ReadAllLines(Path.Combine(solutionPath, "Source.txt"));
-            
+
+            int idSession = 1;
+
             foreach (string line in lines)
 			{
 				int postab1 = line.IndexOf("\t");
@@ -27,7 +29,10 @@ namespace SoccerStats
 					Session nouvelleSession = new Session();
 					nouvelleSession.Date = dateSession;
 					nouvelleSession.Lieu = lieuSession;
+                    nouvelleSession.IdSession = idSession;
 					result.Add(nouvelleSession);
+
+                    idSession++;
 				}
 
 				Session sessionCourante = result.Find(x => x.Date == dateSession);
