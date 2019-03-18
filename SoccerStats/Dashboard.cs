@@ -44,7 +44,8 @@ namespace SoccerStats
             cbAnnee.Items.Add("2016");
             cbAnnee.Items.Add("2017");
             cbAnnee.Items.Add("2018");
-            cbAnnee.Visible = true;
+			cbAnnee.Items.Add("2019");
+			cbAnnee.Visible = true;
         }
 
         private void btnGenererJoueursCommuns_Click(object sender, EventArgs e)
@@ -100,8 +101,19 @@ namespace SoccerStats
                     lvTopJoueurs.Items.Add("N°" + position + " " + joueur.Nom + "(" + joueur.NbSessions2018.ToString() + ")");
                     position++;
                 }
-            }            
-        }
+            }
+
+			if (selectedAnnee == "2019")
+			{
+				joueurs = Utils.GetAllJoueurs(sessions).OrderByDescending(x => x.NbSessions2019);
+				int position = 1;
+				foreach (JoueurSessionModel joueur in joueurs)
+				{
+					lvTopJoueurs.Items.Add("N°" + position + " " + joueur.Nom + "(" + joueur.NbSessions2019.ToString() + ")");
+					position++;
+				}
+			}
+		}
 
         private void btnSessionsConsecutives_Click(object sender, EventArgs e)
         {
