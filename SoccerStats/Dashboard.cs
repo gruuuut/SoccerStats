@@ -23,6 +23,7 @@ namespace SoccerStats
             LoadingUtil loadingUtil = new LoadingUtil();
             List<Session> sessions = loadingUtil.LoadDataFromSource();
             lblNbSessions.Text = sessions.Count.ToString();
+            lblDerniereSession.Text = sessions.Last().Date;
 		}
 
         private void btnGenererTopJoueurs_Click(object sender, EventArgs e)
