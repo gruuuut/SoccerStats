@@ -23,8 +23,10 @@ namespace SoccerStats
                                         NbSessions2017 = session.Date.Contains("2017") ? 1 : 0,
                                         NbSessions2018 = session.Date.Contains("2018") ? 1 : 0,
 										NbSessions2019 = session.Date.Contains("2019") ? 1 : 0,
-                                        NbSessions2020 = session.Date.Contains("2020") ? 1 : 0
-                        });
+                                        NbSessions2020 = session.Date.Contains("2020") ? 1 : 0,
+										NbSessions2021 = session.Date.Contains("2021") ? 1 : 0,
+										NbSessions2022 = session.Date.Contains("2022") ? 1 : 0
+						});
                     }
                     else
                     {
@@ -35,8 +37,10 @@ namespace SoccerStats
                         joueurSessionModel.NbSessions2018 += session.Date.Contains("2018") ? 1 : 0;
 						joueurSessionModel.NbSessions2019 += session.Date.Contains("2019") ? 1 : 0;
                         joueurSessionModel.NbSessions2020 += session.Date.Contains("2020") ? 1 : 0;
+						joueurSessionModel.NbSessions2021 += session.Date.Contains("2021") ? 1 : 0;
+						joueurSessionModel.NbSessions2022 += session.Date.Contains("2022") ? 1 : 0;
 
-                        result.Remove(joueurSessionModel);
+						result.Remove(joueurSessionModel);
                         result.Add(joueurSessionModel);
                     }
                 }
