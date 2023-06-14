@@ -11,5 +11,6 @@
         public int NbSessions2020 { get; set; }
         public int NbSessions2021 { get; set; }
         public int NbSessions2022 { get; set; }
+        public int NbSessions2023 { get; set; }
     }
 }

@@ -49,6 +49,7 @@ namespace SoccerStats
             cbAnnee.Items.Add("2020");
             cbAnnee.Items.Add("2021");
             cbAnnee.Items.Add("2022");
+            cbAnnee.Items.Add("2023");
             cbAnnee.Visible = true;
         }
 
@@ -147,6 +148,17 @@ namespace SoccerStats
                 foreach (JoueurSessionModel joueur in joueurs)
                 {
                     lvTopJoueurs.Items.Add("N°" + position + " " + joueur.Nom + "(" + joueur.NbSessions2022.ToString() + ")");
+                    position++;
+                }
+            }
+
+            if (selectedAnnee == "2023")
+            {
+                joueurs = Utils.GetAllJoueurs(sessions).OrderByDescending(x => x.NbSessions2023);
+                int position = 1;
+                foreach (JoueurSessionModel joueur in joueurs)
+                {
+                    lvTopJoueurs.Items.Add("N°" + position + " " + joueur.Nom + "(" + joueur.NbSessions2023.ToString() + ")");
                     position++;
                 }
             }
